@@ -1,0 +1,46 @@
+schema_version: 1
+
+context:
+  name: de-travelwarning
+  version: "0.1.0"
+
+package:
+  name: ${{ name|lower }}
+  version: ${{ version }}
+
+source:
+  url: https://pypi.org/packages/source/${{ name[0] }}/${{ name }}/de-travelwarning-${{ version }}.tar.gz
+  sha256: faf78edda3a6fc7ba8e3b954b50ba57ee05aefb6fee708e9f3bb5edaba442f37
+
+build:
+  number: 2
+  noarch: python
+  script: ${{ PYTHON }} -m pip install . -vv
+
+requirements:
+  host:
+    - pip
+    - python ${{ python_min }}.*
+    - poetry
+  run:
+    - python >=${{ python_min }}
+    - python-dateutil
+    - urllib3 >=1.25.3
+
+tests:
+  - python:
+      imports:
+        - deutschland.travelwarning
+      pip_check: true
+      python_version: ${{ python_min }}
+
+about:
+  summary: "Auswärtiges Amt: Reisewarnungen OpenData Schnittstelle"
+  license: Apache-2.0
+  license_file:
+    - LICENSE
+  homepage: https://github.com/bundesAPI/travelwarning-api
+
+extra:
+  recipe-maintainers:
+    - jan-janssen
